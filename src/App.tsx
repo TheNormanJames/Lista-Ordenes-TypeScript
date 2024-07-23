@@ -4,9 +4,13 @@ import useOrder from './hooks/useOrder';
 import OrderContents from './components/OrderContents';
 import TipPercentageForm from './components/TipPercentageForm';
 import OrderTotals from './components/OrderTotals';
+import { useReducer } from 'react';
+import { initialState, orderReducer } from './reducers/order-reducer';
 
 function App() {
-  const { order, addItem, removeItem, tip, setTip, placeOrder } = useOrder();
+  const { order, removeItem, tip, setTip, placeOrder } = useOrder();
+
+  const [state, dispatch] = useReducer(orderReducer, initialState);
   return (
     <>
       <header className="bg-teal-400 py-5">
@@ -20,21 +24,25 @@ function App() {
           <h2 className="text-4xl font-black mb-10">Menú</h2>
           <div className="space-y-3">
             {menuItems.map((item) => (
-              <MenuItem key={item.id} item={item} addItem={addItem}></MenuItem>
+              <MenuItem
+                key={item.id}
+                item={item}
+                dispatch={dispatch}
+              ></MenuItem>
             ))}
           </div>
         </div>
 
         <div className="border border-dashed border-slate-300 p-5 rounded-lg space-y-10">
-          {order.length ? (
+          {state.order.length ? (
             <>
               <OrderContents
-                order={order}
+                order={state.order}
                 removeItem={removeItem}
               ></OrderContents>
               <TipPercentageForm setTip={setTip} tip={tip}></TipPercentageForm>
               <OrderTotals
-                order={order}
+                order={state.order}
                 tip={tip}
                 placeOrder={placeOrder}
               ></OrderTotals>
