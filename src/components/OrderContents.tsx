@@ -1,4 +1,4 @@
-import { MenuItem, OrderItem } from '../types/index';
+import { OrderItem } from '../types/index';
 import { formatCurrency } from '../helpers/index';
 import { OrderActions } from '../reducers/order-reducer';
 
