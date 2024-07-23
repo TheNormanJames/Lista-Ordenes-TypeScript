@@ -1,3 +1,5 @@
+import { OrderActions } from '../reducers/order-reducer';
+
 const tipOptions = [
   {
     id: 'tip-10',
@@ -17,12 +19,12 @@ const tipOptions = [
 ];
 
 type TpePercentageFormProps = {
-  setTip: React.Dispatch<React.SetStateAction<number>>;
   tip: number;
+  dispatch: React.Dispatch<OrderActions>;
 };
 export default function TipPercentageForm({
-  setTip,
   tip,
+  dispatch,
 }: TpePercentageFormProps) {
   return (
     <div>
@@ -36,7 +38,12 @@ export default function TipPercentageForm({
               id={tipOption.id}
               name="tip"
               value={tipOption.value}
-              onChange={(e) => setTip(+e.target.value)}
+              onChange={(e) =>
+                dispatch({
+                  type: 'add-tip',
+                  payload: { value: +e.target.value },
+                })
+              }
               checked={tipOption.value === tip}
             />
           </div>
